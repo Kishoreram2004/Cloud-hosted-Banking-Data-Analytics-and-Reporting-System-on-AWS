@@ -1,0 +1,6 @@
+# Save the Athena Query Result to S3
+csv_buffer = StringIO()
+df.to_csv(csv_buffer, index=False)
+s3_client.put_object(Bucket=s3_bucket, Key='reports/athena_summary.csv', Body=csv_buffer.getvalue())
+
+print("Athena query results stored in S3.")
