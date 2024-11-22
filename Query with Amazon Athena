@@ -1,0 +1,16 @@
+from pyathena import connect
+import pandas as pd
+
+# Athena Configuration
+database = 'banking_data'
+query = """
+    SELECT category, SUM(amount) as total_spend
+    FROM transactions
+    GROUP BY category
+"""
+
+# Athena Query Execution
+conn = connect(s3_staging_dir="s3://banking-data-bucket/athena-results/",
+               region_name="us-east-1")
+df = pd.read_sql(query, conn)
+print(df)
